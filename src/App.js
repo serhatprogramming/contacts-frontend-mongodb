@@ -43,10 +43,16 @@ const App = () => {
           );
         }
       } else {
-        contactServices.addContact(newContact).then((contact) => {
-          setContacts([...contacts, contact]);
-        });
-        notify("information", `${newName} added successfully`);
+        contactServices
+          .addContact(newContact)
+          .then((contact) => {
+            setContacts([...contacts, contact]);
+            notify("information", `${newName} added successfully`);
+          })
+          .catch((error) => {
+            console.log(error);
+            notify("error", `${error.response.data.error}`);
+          });
       }
     }
   };
@@ -81,7 +87,7 @@ const App = () => {
     setNotification({ type, message });
     setTimeout(() => {
       setNotification(null);
-    }, 3000);
+    }, 30000);
   };
 
   return (
